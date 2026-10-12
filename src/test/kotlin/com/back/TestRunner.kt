@@ -34,6 +34,9 @@ object TestRunner {
             .trim()
             .replace(Regex("\\r\\n"), "\n") // 개행문자 차이 표준화
 
+        printStream.close()
+        outputStream.close()
+
         // 다시 표준 입력으로 복구
         System.setIn(originalIn)
         // 다시 표준 출력으로 복구
