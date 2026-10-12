@@ -14,9 +14,13 @@ class Rq(
 
             cmdBits[1]
                 .split("&")
-                .map{
+                .mapNotNull{
                     val paramBits = it.split("=")
-                    paramBits[0] to paramBits[1]
+                    if(paramBits.size == 2){
+                        paramBits[0] to paramBits[1]
+                    } else {
+                        null
+                    }
                 }
                 .toMap()
         }else{
