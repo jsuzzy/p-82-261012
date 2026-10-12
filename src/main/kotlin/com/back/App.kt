@@ -39,7 +39,9 @@ class App {
                     }
                 }
                 "삭제" -> {
-                    val id: Int = rq.getParamAsInt()
+                    val id: Int = rq.getParamAsInt("id", 0)
+
+                    wiseSayings.removeIf { it.id == id }
                 }
             }
         }

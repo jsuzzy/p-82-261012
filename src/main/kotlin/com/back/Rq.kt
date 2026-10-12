@@ -25,7 +25,7 @@ class Rq(
     }
 
     fun getParam(key: String, defaultValue: String): String {
-        return paramMap[key] ?: defaultValue // map은 nullable: 저장한 적 없는 키를 달라고 하면 null 반환
+        return paramMap[key] ?: defaultValue
     }
 
     fun getParamAsInt(key: String, defaultValue: Int): Int {
