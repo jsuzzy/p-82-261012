@@ -1,21 +1,17 @@
 package com.back
 
-class WiseSayingService{
-    var lastId = 0
-    val wiseSayings = mutableListOf<WiseSaying>()
+class WiseSayingService(
+    val wiseSayingRepository: WiseSayingRepository = WiseSayingRepository()
+) {
 
-    fun add(content: String, author: String): WiseSaying {
-        val id = ++lastId
-
-        return WiseSaying(id, content, author).also{
-            wiseSayings.add(it)
+    fun add(content: String, author: String): WiseSaying = WiseSaying(content, author).also{
+            wiseSayingRepository.save(it)
         }
-    }
 
-    fun findListDesc(): List<WiseSaying> = return this.wiseSayings.reversed()
+    fun findListDesc(): List<WiseSaying> = wiseSayingRepository.findListDesc()
 
-    fun findById(id: Int): WiseSaying? = return wiseSayings.firstOrNull { it.id == id }
+    fun findById(id: Int): WiseSaying? = wiseSayingRepository.findById(id)
 
-    fun delete(wiseSaying: WiseSaying) = wiseSayings.remove(wiseSaying)
+    fun delete(wiseSaying: WiseSaying) = wiseSayingRepository.delete(wiseSaying)
 
 }
