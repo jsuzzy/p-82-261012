@@ -1,8 +1,8 @@
 package com.back
 
-class WiseSayingController {
-
-    val wiseSayingService = WiseSayingService()
+class WiseSayingController(
+    val wiseSayingService: WiseSayingService = SingletonScope.wiseSayingService
+) {
 
     fun write() {
         print("명언: ")
