@@ -3,10 +3,7 @@ package com.back
 import java.nio.file.Path
 
 class WiseSayingFileRepository : WiseSayingRepository{
-    var lastId = 0
 
-    // 파일을 저장할 경로를 getter로 제공
-    // 값을 실제로 저장하는 건 아니고 getter 제공이 마치 변수처럼 보이는 것
     val tableDirPath: Path
         get() {
             return AppConfig.dbDirPath.resolve("wiseSaying")
@@ -16,7 +13,7 @@ class WiseSayingFileRepository : WiseSayingRepository{
         return wiseSaying
             .takeIf { it.isNew() }
             ?.also {
-                wiseSaying.id = ++lastId
+                wiseSaying.id = genNextId()
                 saveOnDisk(wiseSaying)
             } ?: wiseSaying
     }
@@ -36,11 +33,12 @@ class WiseSayingFileRepository : WiseSayingRepository{
                 .readText()
                 .toInt()
         }.getOrElse { 0 }
+    }
 
-        return tableDirPath.resolve("lastId.txt")
-            .toFile()
-            .readText()
-            .toIntOrNull() ?: 0
+    fun genNextId(): Int {
+        return (loadLastId() + 1).also {
+            saveLastId(it)
+        }
     }
 
     private fun saveOnDisk(wiseSaying: WiseSaying) {
@@ -71,10 +69,14 @@ class WiseSayingFileRepository : WiseSayingRepository{
     }
 
     override fun delete(wiseSaying: WiseSaying): Boolean {
-        TODO("Not yet implemented")
+        return tableDirPath
+            .resolve("${wiseSaying.id}.json")
+            .toFile()
+            ?.takeIf { it.exists() }
+            ?.delete() ?: false
     }
 
     override fun clear() {
-        TODO("Not yet implemented")
+        tableDirPath.toFile().deleteRecursively()
     }
 }
