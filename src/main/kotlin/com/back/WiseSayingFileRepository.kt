@@ -118,4 +118,33 @@ class WiseSayingFileRepository : WiseSayingRepository{
     override fun clear() {
         tableDirPath.toFile().deleteRecursively()
     }
+
+    override fun findByKeywordPaged(
+        keywordType: String,
+        keyword: String,
+        itemsPerPage: Int,
+        pageNo: Int
+    ): Page<WiseSaying> {
+
+        val wiseSayings = when (keywordType) {
+            "author" -> findByAuthorLike("%$keyword%")
+            else -> findByAuthorContent("%$keyword%")
+        }
+
+        val content = wiseSayings
+            .drop((pageNo - 1) * itemsPerPage)
+            .take(itemsPerPage)
+
+        return Page(wiseSayings.size, itemsPerPage, pageNo, keywordType, keyword, content)
+    }
+
+    override fun findAllPaged(itemsPerPage: Int, pageNo: Int): Page<WiseSaying> {
+        val wiseSayings = findListDesc()
+
+        val content = wiseSayings
+            .drop((pageNo - 1) * itemsPerPage)
+            .take(itemsPerPage)
+
+        return Page(wiseSayings.size, itemsPerPage, pageNo, "", "", content)
+    }
 }

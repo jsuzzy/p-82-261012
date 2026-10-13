@@ -22,4 +22,9 @@ class WiseSayingService(
 
     fun delete(wiseSaying: WiseSaying) = wiseSayingRepository.delete(wiseSaying)
 
+    fun findByKeywordPaged(keywordType: String, keyword: String, itemsPerPage: Int, pageNo: Int): Page<WiseSaying>
+        = wiseSayingRepository.findByKeywordPaged(keywordType, keyword, itemsPerPage, pageNo)
+
+    fun findAllPaged(itemsPerPage: Int, pageNo: Int): Page<WiseSaying>
+        = wiseSayingRepository.findAllPaged(itemsPerPage, pageNo)
 }

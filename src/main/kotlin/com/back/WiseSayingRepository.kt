@@ -9,4 +9,11 @@ interface WiseSayingRepository {
     fun findByAuthorContent(keyword: String): List<WiseSaying>
     fun delete(wiseSaying: WiseSaying): Boolean
     fun clear()
+    fun findByKeywordPaged(
+        keywordType: String,
+        keyword: String,
+        itemsPerPage: Int,
+        pageNo: Int
+    ): Page<WiseSaying>
+    fun findAllPaged(itemsPerPage: Int, pageNo: Int): Page<WiseSaying>
 }
