@@ -2,6 +2,7 @@ package com.back
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test
 
 class WiseSayingFileRepositoryTest {
@@ -17,10 +18,10 @@ class WiseSayingFileRepositoryTest {
         }
     }
 
-//    @BeforeEach
-//    fun setUp() {
-//        wiseSayingRepository.clear()
-//    }
+    @BeforeEach
+    fun setUp() {
+        wiseSayingRepository.clear()
+    }
 
     @Test
     fun `save`() {
@@ -34,6 +35,19 @@ class WiseSayingFileRepositoryTest {
             ?.find { it.name == "${wiseSaying.id}.json" }
 
         assertThat(isExist)
+    }
+
+    @Test
+    fun `findListdesc`() {
+        val wiseSaying1 = wiseSayingRepository
+            .save(WiseSaying("나의 죽음을 적들에게 알리지 말라.", "충무공 이순신"))
+
+        val wiseSaying2 = wiseSayingRepository
+            .save(WiseSaying("나를 파괴할 수 있는 사람이 없다.", "바토르"))
+
+        val foundWiseSayings = wiseSayingRepository.findListDesc()
+
+        assertThat(foundWiseSayings).containsExactly(wiseSaying1, wiseSaying2)
     }
 
     @Test
