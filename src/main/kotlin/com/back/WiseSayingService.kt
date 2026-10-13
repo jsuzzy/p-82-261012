@@ -1,17 +1,25 @@
 package com.back
 
 class WiseSayingService(
-    val wiseSayingMemRepository: WiseSayingMemRepository = SingletonScope.wiseSayingMemRepository
+    val wiseSayingRepository: WiseSayingRepository = SingletonScope.wiseSayingFileRepository
 ) {
 
     fun add(content: String, author: String): WiseSaying = WiseSaying(content, author).also{
-            wiseSayingMemRepository.save(it)
+        wiseSayingRepository.save(it)
         }
 
-    fun findListDesc(): List<WiseSaying> = wiseSayingMemRepository.findListDesc()
+    fun findByKeyword(keywordType: String, keyword: String): List<WiseSaying> {
+        return when ( keywordType ) {
+            "author" -> wiseSayingRepository.findByAuthorLike("%$keyword%")
+            "content" -> wiseSayingRepository.findByContentLike("%$keyword%")
+            else -> wiseSayingRepository.findByAuthorContent("%$keyword%")
+        }
+    }
 
-    fun findById(id: Int): WiseSaying? = wiseSayingMemRepository.findById(id)
+    fun findListDesc(): List<WiseSaying> = wiseSayingRepository.findListDesc()
 
-    fun delete(wiseSaying: WiseSaying) = wiseSayingMemRepository.delete(wiseSaying)
+    fun findById(id: Int): WiseSaying? = wiseSayingRepository.findById(id)
+
+    fun delete(wiseSaying: WiseSaying) = wiseSayingRepository.delete(wiseSaying)
 
 }

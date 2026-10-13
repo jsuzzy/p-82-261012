@@ -24,7 +24,7 @@ class App(
                     break
                 }
                 "등록" -> wiseSayingController.write()
-                "목록" -> wiseSayingController.list()
+                "목록" -> wiseSayingController.list(rq)
                 "삭제" -> wiseSayingController.delete(rq)
                 "수정" -> wiseSayingController.modify(rq)
             }
