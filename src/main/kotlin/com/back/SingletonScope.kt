@@ -2,8 +2,8 @@ package com.back
 
 object SingletonScope {
 
-    val wiseSayingRepository by lazy { WiseSayingRepository() }
-    val wiseSayingService by lazy { WiseSayingService(wiseSayingRepository) }
+    val wiseSayingMemRepository by lazy { WiseSayingMemRepository() }
+    val wiseSayingService by lazy { WiseSayingService(wiseSayingMemRepository) }
     val wiseSayingController by lazy { WiseSayingController(wiseSayingService) }
     val systemController by lazy { SystemController() }
 

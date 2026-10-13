@@ -1,17 +1,17 @@
 package com.back
 
 class WiseSayingService(
-    val wiseSayingRepository: WiseSayingRepository = SingletonScope.wiseSayingRepository
+    val wiseSayingMemRepository: WiseSayingMemRepository = SingletonScope.wiseSayingMemRepository
 ) {
 
     fun add(content: String, author: String): WiseSaying = WiseSaying(content, author).also{
-            wiseSayingRepository.save(it)
+            wiseSayingMemRepository.save(it)
         }
 
-    fun findListDesc(): List<WiseSaying> = wiseSayingRepository.findListDesc()
+    fun findListDesc(): List<WiseSaying> = wiseSayingMemRepository.findListDesc()
 
-    fun findById(id: Int): WiseSaying? = wiseSayingRepository.findById(id)
+    fun findById(id: Int): WiseSaying? = wiseSayingMemRepository.findById(id)
 
-    fun delete(wiseSaying: WiseSaying) = wiseSayingRepository.delete(wiseSaying)
+    fun delete(wiseSaying: WiseSaying) = wiseSayingMemRepository.delete(wiseSaying)
 
 }
